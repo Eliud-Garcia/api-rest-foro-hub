@@ -19,13 +19,20 @@ import java.time.LocalDateTime;
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_topico")
     private Long id;
 
+    @Column(name = "titulo_topico")
     private String titulo;
+
+    @Column(name = "mensaje_topico")
     private String mensaje;
+
+    @Column(name = "fecha_creacion")
     private LocalDateTime fecha_creacion;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "estado_topico")
     private EstadoTopico estado;
 
     //TODO: agregar relaciones de la tabla topico

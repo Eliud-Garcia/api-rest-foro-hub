@@ -17,10 +17,16 @@ import lombok.NoArgsConstructor;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
+    @Column(name = "nombre_usuario")
     private String nombre;
+
+    @Column(name = "email_usuario")
     private String email;
+
+    @Column(name = "contrasenia")
     private String contrasenia;
 
 }
