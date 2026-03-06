@@ -1,6 +1,8 @@
 package com.alura.api_rest_foro.domain.usuario;
 
+import com.alura.api_rest_foro.domain.usuario.dto.DatosRegistroUsuario;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,4 +31,9 @@ public class Usuario {
     @Column(name = "contrasenia")
     private String contrasenia;
 
+    public Usuario(DatosRegistroUsuario datos) {
+        this.nombre = datos.nombre();
+        this.email = datos.email();
+        this.contrasenia = datos.contrasenia();
+    }
 }
