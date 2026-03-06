@@ -1,5 +1,7 @@
 package com.alura.api_rest_foro.domain.topico;
 
+import com.alura.api_rest_foro.domain.curso.Curso;
+import com.alura.api_rest_foro.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -35,5 +37,13 @@ public class Topico {
     @Column(name = "estado_topico")
     private EstadoTopico estado;
 
-    //TODO: agregar relaciones de la tabla topico
+    //relaciones de la tabla topico
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_idusuario")
+    private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_idcurso")
+    private Curso curso;
 }
