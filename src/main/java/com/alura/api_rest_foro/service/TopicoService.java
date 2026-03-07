@@ -36,10 +36,12 @@ public class TopicoService {
     public DatosDetalleTopico save(DatosRegistroTopico datos) {
 
         Curso curso = cursoRepository.findById(datos.id_curso())
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_curso()));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_curso()));
 
         Usuario usuario = usuarioRepository.findById(datos.id_usuario())
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_usuario()));
+                .orElseThrow(
+                        () -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_usuario()));
 
         if (topicoRepository.existsByTitulo(datos.titulo())) {
             throw new ValidacionException("Ya existe un tópico con ese mismo título.");
@@ -62,7 +64,8 @@ public class TopicoService {
     public DatosDetalleTopico findById(Long id) {
         Topico topico = topicoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró el tópico con id: " + id));
-        //lanza un EntityNotFoundException para atraparlo con el gestor de errores y dar el codigo http correcto
+        // lanza un EntityNotFoundException para atraparlo con el gestor de errores y
+        // dar el codigo http correcto
         return new DatosDetalleTopico(topico);
     }
 }
