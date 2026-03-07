@@ -5,6 +5,7 @@ import com.alura.api_rest_foro.domain.ValidacionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,6 +42,15 @@ public class GestorErrores {
                 .map(DatosErrorValidacion::new).toList());
     }
 
+
+    /*
+     * Para manejar errores cuando se envia un parametro en la URL
+     * de tipo incorrecto (por ejemplo: enviar letras cuando se espera un numero en el ID)
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> gestionarErrorTipoParametro() {
+        return ResponseEntity.badRequest().body("El ID proporcionado no es válido. Debe ser un número.");
+    }
 
     /*
      * Este record captura solo el campo y mensaje del error
