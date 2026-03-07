@@ -35,9 +35,6 @@ public class TopicoController {
     @GetMapping("/{id}")
     public ResponseEntity<DatosDetalleTopico> buscarPorId(@PathVariable Long id) {
         DatosDetalleTopico topico = topicoService.findById(id);
-        if (topico == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(topico);
     }
 }

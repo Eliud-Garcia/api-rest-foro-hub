@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alura.api_rest_foro.domain.ValidacionException;
+import jakarta.persistence.EntityNotFoundException;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -31,26 +34,19 @@ public class TopicoService {
 
     @Transactional
     public DatosDetalleTopico save(DatosRegistroTopico datos) {
-        if (!cursoRepository.existsById(datos.id_curso())) {
-            System.out.println("no existe el curso");
-            return null;
-        }
 
-        if (!usuarioRepository.existsById(datos.id_usuario())) {
-            System.out.println("no existe el usuario");
-            return null;
-        }
+        Curso curso = cursoRepository.findById(datos.id_curso())
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_curso()));
+
+        Usuario usuario = usuarioRepository.findById(datos.id_usuario())
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró el usuario con id: " + datos.id_usuario()));
 
         if (topicoRepository.existsByTitulo(datos.titulo())) {
-            System.out.println("titulo duplicado, ya existe");
-            return null;
+            throw new ValidacionException("Ya existe un tópico con ese mismo título.");
         }
         if (topicoRepository.existsByMensaje(datos.mensaje())) {
-            System.out.println("mensaje duplicado, ya existe");
-            return null;
+            throw new ValidacionException("Ya existe un tópico con ese mismo mensaje.");
         }
-        Curso curso = cursoRepository.getReferenceById(datos.id_curso());
-        Usuario usuario = usuarioRepository.getReferenceById(datos.id_usuario());
 
         LocalDateTime fecha = LocalDateTime.now();
         Topico topico = new Topico(null, datos.titulo(), datos.mensaje(), fecha, EstadoTopico.PENDIENTE, usuario,
@@ -64,10 +60,9 @@ public class TopicoService {
     }
 
     public DatosDetalleTopico findById(Long id) {
-        if (topicoRepository.existsById(id)) {
-            return new DatosDetalleTopico(topicoRepository.getReferenceById(id));
-        } else {
-            return null;
-        }
+        Topico topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró el tópico con id: " + id));
+        //lanza un EntityNotFoundException para atraparlo con el gestor de errores y dar el codigo http correcto
+        return new DatosDetalleTopico(topico);
     }
 }
