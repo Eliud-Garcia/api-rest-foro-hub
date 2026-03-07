@@ -30,22 +30,22 @@ public class TopicoService {
     private CursoRepository cursoRepository;
 
     @Transactional
-    public DatosDetalleTopico save(DatosRegistroTopico datos){
-        if(!cursoRepository.existsById(datos.id_curso())){
+    public DatosDetalleTopico save(DatosRegistroTopico datos) {
+        if (!cursoRepository.existsById(datos.id_curso())) {
             System.out.println("no existe el curso");
             return null;
         }
 
-        if(!usuarioRepository.existsById(datos.id_usuario())){
+        if (!usuarioRepository.existsById(datos.id_usuario())) {
             System.out.println("no existe el usuario");
             return null;
         }
 
-        if(topicoRepository.existsByTitulo(datos.titulo())){
+        if (topicoRepository.existsByTitulo(datos.titulo())) {
             System.out.println("titulo duplicado, ya existe");
             return null;
         }
-        if(topicoRepository.existsByMensaje(datos.mensaje())){
+        if (topicoRepository.existsByMensaje(datos.mensaje())) {
             System.out.println("mensaje duplicado, ya existe");
             return null;
         }
@@ -53,12 +53,21 @@ public class TopicoService {
         Usuario usuario = usuarioRepository.getReferenceById(datos.id_usuario());
 
         LocalDateTime fecha = LocalDateTime.now();
-        Topico topico = new Topico(null, datos.titulo(), datos.mensaje(), fecha, EstadoTopico.PENDIENTE, usuario, curso);
+        Topico topico = new Topico(null, datos.titulo(), datos.mensaje(), fecha, EstadoTopico.PENDIENTE, usuario,
+                curso);
         topicoRepository.save(topico);
         return new DatosDetalleTopico(topico);
     }
 
-    public Page<DatosDetalleTopico> findAll(Pageable paginacion){
+    public Page<DatosDetalleTopico> findAll(Pageable paginacion) {
         return topicoRepository.findAll(paginacion).map(DatosDetalleTopico::new);
+    }
+
+    public DatosDetalleTopico findById(Long id) {
+        if (topicoRepository.existsById(id)) {
+            return new DatosDetalleTopico(topicoRepository.getReferenceById(id));
+        } else {
+            return null;
+        }
     }
 }

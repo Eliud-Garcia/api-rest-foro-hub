@@ -19,15 +19,25 @@ public class TopicoController {
     private TopicoService topicoService;
 
     @PostMapping
-    public ResponseEntity registrar(@RequestBody @Valid DatosRegistroTopico datos){
+    public ResponseEntity registrar(@RequestBody @Valid DatosRegistroTopico datos) {
         DatosDetalleTopico topico = topicoService.save(datos);
         return ResponseEntity.ok(topico);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DatosDetalleTopico>> listar(@PageableDefault(size = 30, sort = {"titulo"}) Pageable paginacion){
+    public ResponseEntity<Page<DatosDetalleTopico>> listar(
+            @PageableDefault(size = 30, sort = { "titulo" }) Pageable paginacion) {
         Page<DatosDetalleTopico> lista = topicoService.findAll(paginacion);
         // Se puede hacer Spring HATEOAS para mejorar la paginación
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosDetalleTopico> buscarPorId(@PathVariable Long id) {
+        DatosDetalleTopico topico = topicoService.findById(id);
+        if (topico == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(topico);
     }
 }
