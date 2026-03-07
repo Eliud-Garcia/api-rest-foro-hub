@@ -10,6 +10,8 @@ import com.alura.api_rest_foro.domain.topico.dto.DatosRegistroTopico;
 import com.alura.api_rest_foro.domain.usuario.Usuario;
 import com.alura.api_rest_foro.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,5 +56,9 @@ public class TopicoService {
         Topico topico = new Topico(null, datos.titulo(), datos.mensaje(), fecha, EstadoTopico.PENDIENTE, usuario, curso);
         topicoRepository.save(topico);
         return new DatosDetalleTopico(topico);
+    }
+
+    public Page<DatosDetalleTopico> findAll(Pageable paginacion){
+        return topicoRepository.findAll(paginacion).map(DatosDetalleTopico::new);
     }
 }

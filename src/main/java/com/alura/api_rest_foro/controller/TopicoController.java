@@ -5,11 +5,11 @@ import com.alura.api_rest_foro.domain.topico.dto.DatosRegistroTopico;
 import com.alura.api_rest_foro.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/topicos")
@@ -22,5 +22,12 @@ public class TopicoController {
     public ResponseEntity registrar(@RequestBody @Valid DatosRegistroTopico datos){
         DatosDetalleTopico topico = topicoService.save(datos);
         return ResponseEntity.ok(topico);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DatosDetalleTopico>> listar(@PageableDefault(size = 30, sort = {"titulo"}) Pageable paginacion){
+        Page<DatosDetalleTopico> lista = topicoService.findAll(paginacion);
+        // Se puede hacer Spring HATEOAS para mejorar la paginación
+        return ResponseEntity.ok(lista);
     }
 }
