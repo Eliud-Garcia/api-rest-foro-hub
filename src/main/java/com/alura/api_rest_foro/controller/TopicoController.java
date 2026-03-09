@@ -1,5 +1,7 @@
 package com.alura.api_rest_foro.controller;
 
+import com.alura.api_rest_foro.domain.topico.Topico;
+import com.alura.api_rest_foro.domain.topico.dto.DatosActualizarTopico;
 import com.alura.api_rest_foro.domain.topico.dto.DatosDetalleTopico;
 import com.alura.api_rest_foro.domain.topico.dto.DatosRegistroTopico;
 import com.alura.api_rest_foro.service.TopicoService;
@@ -36,5 +38,11 @@ public class TopicoController {
     public ResponseEntity<DatosDetalleTopico> buscarPorId(@PathVariable Long id) {
         DatosDetalleTopico topico = topicoService.findById(id);
         return ResponseEntity.ok(topico);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody @Valid DatosActualizarTopico datos){
+        Topico modificacion = topicoService.update(id, datos);
+        return ResponseEntity.ok(new DatosDetalleTopico(modificacion));
     }
 }

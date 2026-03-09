@@ -1,6 +1,7 @@
 package com.alura.api_rest_foro.domain.topico;
 
 import com.alura.api_rest_foro.domain.curso.Curso;
+import com.alura.api_rest_foro.domain.topico.dto.DatosActualizarTopico;
 import com.alura.api_rest_foro.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,4 +47,9 @@ public class Topico {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_idcurso")
     private Curso curso;
+
+    public void actualizar(DatosActualizarTopico datos) {
+        this.titulo = datos.titulo();
+        this.mensaje = datos.mensaje();
+    }
 }

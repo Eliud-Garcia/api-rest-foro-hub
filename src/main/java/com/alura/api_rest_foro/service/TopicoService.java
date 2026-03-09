@@ -5,10 +5,12 @@ import com.alura.api_rest_foro.domain.curso.CursoRepository;
 import com.alura.api_rest_foro.domain.topico.EstadoTopico;
 import com.alura.api_rest_foro.domain.topico.Topico;
 import com.alura.api_rest_foro.domain.topico.TopicoRepository;
+import com.alura.api_rest_foro.domain.topico.dto.DatosActualizarTopico;
 import com.alura.api_rest_foro.domain.topico.dto.DatosDetalleTopico;
 import com.alura.api_rest_foro.domain.topico.dto.DatosRegistroTopico;
 import com.alura.api_rest_foro.domain.usuario.Usuario;
 import com.alura.api_rest_foro.domain.usuario.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -61,11 +63,30 @@ public class TopicoService {
         return topicoRepository.findAll(paginacion).map(DatosDetalleTopico::new);
     }
 
+    @Transactional
     public DatosDetalleTopico findById(Long id) {
         Topico topico = topicoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró el tópico con id: " + id));
         // lanza un EntityNotFoundException para atraparlo con el gestor de errores y
         // dar el codigo http correcto
         return new DatosDetalleTopico(topico);
+    }
+
+    @Transactional
+    public Topico update(Long id_topico, DatosActualizarTopico datos) {
+        Topico topico = topicoRepository.findById(id_topico)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("No se encontró el tópico con id: " + id_topico));
+
+        topico = topicoRepository.getReferenceById(id_topico);
+
+        if (topicoRepository.existsByTitulo(datos.titulo()) && !topico.getTitulo().equals(datos.titulo())) {
+            throw new ValidacionException("Ya existe un tópico con ese nombre!");
+        }
+        if (topicoRepository.existsByMensaje(datos.mensaje()) && !topico.getMensaje().equals(datos.mensaje())) {
+            throw new ValidacionException("Ya existe un tópico con ese mensaje!");
+        }
+        topico.actualizar(datos);
+        return topico;
     }
 }
