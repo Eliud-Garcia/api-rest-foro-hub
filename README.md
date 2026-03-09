@@ -17,7 +17,7 @@ Una API RESTful desarrollada con Spring Boot para la gestión de un foro, permit
 
 ## 🛠️ Tecnologías y Herramientas
 
-- **Java**
+- **Java 17**
 - **Spring Boot 3** (Spring Web y Spring Data JPA)
 - **Base de Datos**: MySQL
 - **Lombok**: Reducción de código boilerplate (Getters, constructores, etc.).
@@ -44,8 +44,9 @@ La API cuenta con los siguientes endpoints principales:
 ## ⚙️ Configuración y Ejecución Local
 
 1. Clona este repositorio en tu máquina local.
-2. Crea un archivo llamado `.env` en la raíz del proyecto para definir tus variables de entorno, como las credenciales de conexión a tu base de datos y la clave secreta para la firma del token JWT.
-3. Asegúrate de tener tu servidor de base de datos local encendido (ej. MySQL).
+2. Crea una base de datos para usarla en este proyecto.
+2. Crea un archivo llamado `.env` a partir del archivo `.env_example` en la raíz del proyecto para definir tus variables de entorno, como las credenciales de conexión a tu base de datos.
+3. Asegúrate de tener tu servidor de base de datos local encendido (MySQL).
 4. Spring Boot, junto con Flyway, creará las tablas necesarias en tu base de datos si las migraciones están configuradas.
 5. Ejecuta el proyecto desde tu IDE preferido (IntelliJ IDEA, Eclipse, VS Code) o usando la terminal:
    ```bash
