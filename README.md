@@ -2,6 +2,8 @@
 
 Una API RESTful desarrollada con Spring Boot para la gestión de un foro, permitiendo la interacción estructurada mediante Tópicos, Cursos y Usuarios. Este proyecto forma parte del challenge Foro Hub de Alura Latam.
 
+<img src="docs/Badge-Spring.png" alt="Badge Spring" width="250">
+
 ## 🚀 Características Principales
 
 - **Gestión de Tópicos (CRUD completo)**:
