@@ -52,4 +52,8 @@ public class Topico {
         this.titulo = datos.titulo();
         this.mensaje = datos.mensaje();
     }
+
+    public void eliminar() {
+        this.estado = EstadoTopico.DESACTIVADO;
+    }
 }
