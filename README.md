@@ -13,12 +13,16 @@ Una API RESTful desarrollada con Spring Boot para la gestión de un foro, permit
 - **Gestión de Cursos y Usuarios**: Endpoints dedicados para el registro de nuevos cursos y usuarios en el sistema.
 - **Reglas de Negocio Inteligentes**: Manejo eficiente de transacciones de base de datos para no guardar datos anómalos ni registros redundantes.
 - **Manejo Centralizado de Errores**: Uso de un `GestorErrores` global para proveer respuestas HTTP claras (404 Not Found, 400 Bad Request, etc.) cuando ocurren validaciones de negocio (ej. `ValidacionException` o `EntityNotFoundException`).
-- **Seguridad Sólida**: Autenticación y autorización protegidas mediante Spring Security y **JWT (JSON Web Tokens)**.
+- **Seguridad y Autenticación**: 
+  - Integración de **Spring Security** para control de acceso.
+  - Implementación de la interfaz `UserDetails` en la entidad `Usuario`.
+  - Creación de un `UserDetailsService` personalizado (`AutenticacionService`) para verificar credenciales desde la base de datos de manera segura.
+  - Uso de **JWT (JSON Web Tokens)** para una autenticación sin estado (Stateless).
 
 ## 🛠️ Tecnologías y Herramientas
 
 - **Java 17**
-- **Spring Boot 3** (Spring Web y Spring Data JPA)
+- **Spring Boot 3** (Spring Web, Spring Data JPA, Spring Security)
 - **Base de Datos**: MySQL
 - **Lombok**: Reducción de código boilerplate (Getters, constructores, etc.).
 - **Flyway**: Para el versionado y control de migraciones de la base de datos.
